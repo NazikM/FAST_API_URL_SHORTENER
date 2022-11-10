@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Shortener{% endblock %}
+
+{% block content %}
+  <div class="mb-3">
+    <label for="inputUrl" class="form-label">Your veryyy longg url.</label>
+    <input type="text" id="inputUrl" class="form-control" aria-describedby="urlHelpBlock">
+    <div id="urlHelpBlock" class="form-text">
+      You can paste any url here, and it'll be shortened.
+    </div>
+  </div>
+  <button type="button" class="btn btn-primary" onclick="process_url()">Submit</button>
+  <div class="alert alert-success" role="alert" id="url_short" style="display: None; margin-top: 10px;"></div>
+<script>
+  function process_url(){
+    let url = document.getElementById('inputUrl').value;
+    let alert_item = document.getElementById('url_short');
+    if (url){
+      let short_url = fetch('{{ BASE_URL }}/api/v1/', {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          'full': url,
+        })
+      }).then((response) => response.json())
+              .then(((data) => {
+                console.log(data);
+                alert_item.innerText = 'Your short URL: {{ BASE_URL }}/' + data.short;
+                alert_item.style.display = "block";
+              })).catch(console.error);
+
+    }
+  }
+</script>
+{% endblock %}
