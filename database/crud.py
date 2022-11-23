@@ -4,15 +4,9 @@ from sqlalchemy.orm import Session
 from database import models, schemas
 
 
-def get_url_with_id(db: Session, url_id: str) -> models.Urls:
-    """
-    Used for getting url in url generators.
-    :param db: Db Session
-    :param url_id: short url
-    :return: Query
-    """
+def get_url_with_id(db: Session, short_url: str) -> models.Urls:
     result = db.query(models.Urls)\
-        .filter(models.Urls.short == url_id)\
+        .filter(models.Urls.id == int(short_url, 36))\
         .first()
     return result
 

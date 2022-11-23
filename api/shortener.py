@@ -12,17 +12,17 @@ from app.database.schemas import Url
 
 router = fastapi.APIRouter()
 
-MISSING = object()
+# MISSING = object()
 
 
-def get_full_url(url_id: str, db: Session = Depends(get_db), default=MISSING):
-    result = get_url_with_id(db, url_id)
+def get_full_url(short_url: str, db: Session = Depends(get_db)):
+    result = get_url_with_id(db, short_url)
     if not result:
-        if default is not MISSING:
-            return default
+        # if default is not MISSING:
+        #     return default
         raise HTTPException(status_code=404, detail="Url not found!")
     update_click_count(db, result)
-    return result.full
+    return result.url
 
 
 @router.get('/{url_id}')
