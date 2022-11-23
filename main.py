@@ -6,10 +6,22 @@ from database.database import engine
 from database import models
 from api import shortener, stat
 from views import shortener_views, stat_views
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def configure():
@@ -29,10 +41,6 @@ def configure_db():
     models.Base.metadata.create_all(bind=engine)
 
 
+configure()
 if __name__ == "__main__":
-    configure()
-    uvicorn.run(app, host='localhost', port=8000)
-else:
-    configure()
-
-
+    uvicorn.run('main:app', host='localhost', port=8000, reload=True)

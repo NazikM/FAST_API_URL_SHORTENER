@@ -1,18 +1,26 @@
-from string import ascii_letters, digits
+from string import ascii_uppercase
 from random import choice
 
 from sqlalchemy.orm import Session
 
-from database import crud
+
+numbers = {}
+for i in range(1, 10):
+    numbers[i] = str(i)
+
+for k, v in enumerate(ascii_uppercase):
+    numbers[k+10] = v
 
 
-def generate_unique_url_id():
-    return ''.join([choice(ascii_letters + digits) for i in range(6)])
+def generate_unique_url_id(url_id):
+    return ''.join(number_to_base(url_id))
 
 
-def get_unique_url_id(db: Session):
-    short_id = generate_unique_url_id()
-    # Check if short_id is not in db
-    while crud.get_url_with_id(db, short_id):
-        short_id = generate_unique_url_id()
-    return short_id
+def number_to_base(n, b=36):
+    if n == 0:
+        return [0]
+    digits = []
+    while n:
+        digits.append(numbers[int(n % b)])
+        n //= b
+    return digits[::-1]

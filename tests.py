@@ -39,7 +39,7 @@ def test_stat_with_adding():
     assert response.status_code == 200
 
     client.post("/api/v1/", json={
-        "full": "https://testdriven.io/"
+        "full": "https://testdriven.io/gd"
     })
 
     response2 = client.get("/api/v1/statistics/top_urls/100")
