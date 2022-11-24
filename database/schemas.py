@@ -1,5 +1,3 @@
-from typing import List
-
 from pydantic import BaseModel
 
 from app.services.url_generator import generate_unique_url_id
