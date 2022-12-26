@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Stats{% endblock %}
+
+{% block content %}
+  <div class="mb-3">
+    <label for="inputUrl" class="form-label">How many urls you'd like to see in top?</label>
+    <input type="text" id="inputNumber" class="form-control" aria-describedby="urlHelpBlock">
+  </div>
+  <button type="button" class="btn btn-primary" onclick="process_top()">Submit</button>
+  <table class="table" role="alert" id="top" style="display: None; margin-top: 10px;"></table>
+<script>
+  function process_top(){
+    let count = document.getElementById('inputNumber').value;
+    let alert_item = document.getElementById('top');
+    if (count){
+      fetch('{{ BASE_URL }}/api/v1/statistics/top_urls/' + count)
+      .then((response) => response.json())
+              .then(((data) => {
+                  let res = `<thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Click count</th>
+                                  <th scope="col">Short url</th>
+                                  <th scope="col">Full url</th>
+                                </tr>
+                              </thead><tbody>`;
+                  for(let t in data){
+                      res += `<tr>
+                                <th scope="row">${parseInt(t)+1}</th>
+                                <td>${data[t].click_count}</td>
+                                <td>${data[t].short}</td>
+                                <td>@${data[t].full}</td>
+                              </tr>`
+                  }
+                  res += '</tbody></table>';
+                alert_item.innerHTML = res;
+                alert_item.style.display = "block";
+              })).catch(console.error);
+
+    }
+  }
+</script>
+{% endblock %}
