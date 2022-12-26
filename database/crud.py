@@ -1,7 +1,7 @@
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
-from database import models, schemas
+from app.database import models, schemas
 
 
 def get_url_with_id(db: Session, short_url: str) -> models.Urls:

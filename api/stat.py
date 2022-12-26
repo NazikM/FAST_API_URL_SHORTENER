@@ -1,8 +1,8 @@
 import fastapi
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
-from database.crud import get_top_urls_by_clicks
-from database.database import get_db
+from app.database.crud import get_top_urls_by_clicks
+from app.database.database import get_db
 
 from app.database.schemas import Url
 

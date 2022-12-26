@@ -1,8 +1,4 @@
 from string import ascii_uppercase
-from random import choice
-
-from sqlalchemy.orm import Session
-
 
 numbers = {}
 for i in range(1, 10):

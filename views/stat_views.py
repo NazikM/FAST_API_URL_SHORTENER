@@ -2,7 +2,7 @@ import fastapi
 from fastapi import Request
 from fastapi.templating import Jinja2Templates
 
-from config import BASE_URL
+from app.config import BASE_URL
 
 router = fastapi.APIRouter()
 templates = Jinja2Templates(directory="templates/")

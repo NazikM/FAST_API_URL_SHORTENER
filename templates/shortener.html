@@ -27,7 +27,7 @@
       }).then((response) => response.json())
               .then(((data) => {
                 console.log(data);
-                alert_item.innerText = 'Your short URL: {{ BASE_URL }}/' + data.short;
+                alert_item.innerText = 'Your short URL: {{ BASE_URL }}/goto/' + data.short;
                 alert_item.style.display = "block";
               })).catch(console.error);
 

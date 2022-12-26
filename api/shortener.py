@@ -4,9 +4,9 @@ from sqlalchemy.orm import Session
 import validators
 from fastapi.responses import RedirectResponse
 
-from database.crud import get_or_create_short_id, get_url_with_id, update_click_count
-from database.database import get_db
-from database.schemas import UrlTarget
+from app.database.crud import get_or_create_short_id, get_url_with_id, update_click_count
+from app.database.database import get_db
+from app.database.schemas import UrlTarget
 
 from app.database.schemas import Url
 
@@ -25,7 +25,7 @@ def get_full_url(short_url: str, db: Session = Depends(get_db)):
     return result.url
 
 
-@router.get('/{url_id}')
+@router.get('/goto/{url_id}')
 async def redirect_to(url_id: str, db: Session = Depends(get_db)):
     return RedirectResponse(get_full_url(url_id, db))
 
